@@ -1,20 +1,27 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class Singleton
 {
-	private static List<Component> _instances = new List<Component>();
+	private static Dictionary<Type, MonoBehaviour> _instances = new Dictionary<Type, MonoBehaviour>();
 
-	public static void AddInstance<T>(T holder,bool persistant) where T : Component
+	public static void AddInstance<T>(T holder, bool persistant) where T : MonoBehaviour
 	{
 		if (GetInstance<T>() == null)
-			_instances.Add(holder);
+			_instances.Add(typeof(T), holder);
 		else
-			Object.Destroy(holder.gameObject);
+			UnityEngine.Object.Destroy(holder.gameObject);
 		if (persistant)
-			Object.DontDestroyOnLoad(holder.gameObject);
+			UnityEngine.Object.DontDestroyOnLoad(holder.gameObject);
 
 	}
 
-	public static T GetInstance<T>() where T : Component => (T)_instances.Find(i => i.GetType() == typeof(T));
+	public static T GetInstance<T>() where T : MonoBehaviour
+	{
+		if (_instances.TryGetValue(typeof(T), out MonoBehaviour behaviour))
+			return (T)behaviour;
+		else
+			return null;
+	}
 }

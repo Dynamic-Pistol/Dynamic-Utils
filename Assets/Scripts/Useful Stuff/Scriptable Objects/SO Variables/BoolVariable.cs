@@ -6,19 +6,20 @@ public class BoolVariable : ScriptableObject
 {
 	private bool _value;
 
-	public bool Value => _value;
+	public bool Value
+	{
+		get => _value; set
+		{
+			_value = value;
+			OnValueChangedUnityEvent?.Invoke(value);
+			OnValueChanged?.Invoke(value);
+		}
+	}
 
 	[SerializeField]
 	private UnityEvent<bool> OnValueChangedUnityEvent = new UnityEvent<bool>();
 
 	public event System.Action<bool> OnValueChanged;
-
-	public void SetValue(bool value)
-	{
-		_value = value;
-		OnValueChangedUnityEvent?.Invoke(_value);
-		OnValueChanged?.Invoke(_value);
-	}
 
 	public void Toggle()
 	{

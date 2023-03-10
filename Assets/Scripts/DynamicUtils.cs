@@ -94,65 +94,6 @@ public static class DynamicUtils
 
 	#endregion
 
-
-	public static class NoiseGenerator
-	{
-		public static NativeArray2D<float> GenerateNoiseMap(NoiseData noiseData)
-		{
-			if (noiseData.scale <= 0)
-				noiseData.scale = 0.0001f;
-			NativeArray<float2> octaveOffsets = new NativeArray<float2>(noiseData.octaves, Allocator.TempJob);
-
-			Unity.Mathematics.Random random = new Unity.Mathematics.Random(noiseData.seed);
-
-			for (var i = 0; i < noiseData.octaves; i++)
-			{
-				var offsetX = random.NextInt(-100000, 100000) + noiseData.offSet.x;
-				var offsetY = random.NextInt(-100000, 100000) + noiseData.offSet.y;
-				var nativeOctaveOffsets = octaveOffsets;
-				nativeOctaveOffsets[i] = new float2(offsetX, offsetY);
-			}
-
-			NativeArray2D<float> noiseMap = new NativeArray2D<float>(TerrainData.chunkSize, TerrainData.chunkSize, Allocator.TempJob);
-
-			NoiseJob job = new NoiseJob
-			{
-				noiseData = noiseData,
-				octaveOffsets = octaveOffsets,
-				result = noiseMap,
-			};
-
-			JobHandle jobHandle = job.Schedule(noiseMap.ValueLength, 32);
-			jobHandle.Complete();
-
-			octaveOffsets.Dispose();
-
-			float minNoiseHeight = float.MaxValue;
-			float maxNoiseHeight = float.MinValue;
-
-			for (int x = 0; x < noiseMap.Get1stLength; x++)
-			{
-				for (int y = 0; y < noiseMap.Get2ndLength; y++)
-				{
-					if (noiseMap[x, y] > maxNoiseHeight)
-						maxNoiseHeight = noiseMap[x, y];
-					else if (noiseMap[x, y] < minNoiseHeight)
-						minNoiseHeight = noiseMap[x, y];
-				}
-			}
-
-			for (int x = 0; x < noiseMap.Get1stLength; x++)
-			{
-				for (int y = 0; y < noiseMap.Get2ndLength; y++)
-				{
-					noiseMap[x, y] = math.unlerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
-				}
-			}
-
-			return noiseMap;
-		}
-	}
-
 	public static class MeshBuilder
 	{
 		public static MeshData GenerateTerrainMesh(NativeArray2D<float> heightMap, TerrainData terrainData)
