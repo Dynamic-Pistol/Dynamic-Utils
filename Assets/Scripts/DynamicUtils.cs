@@ -34,63 +34,10 @@ public static class DynamicUtils
 	/// <returns></returns>
 	public static Vector3 ScreenToWorldPoint(Vector3 targetPosition) => mainCamera.ScreenToWorldPoint(targetPosition);
 
-	/// <summary>
-	/// Clamps a Vector2
-	/// </summary>
-	/// <param name="value"></param>
-	/// <param name="min"></param>
-	/// <param name="max"></param>
-	/// <returns>a Vector2 between the min and max value</returns>
-	public static Vector2 ClampVector2(Vector2 value, Vector2 min, Vector2 max)
-	{
-		float x = Mathf.Clamp(value.x, min.x, max.x);
-		float y = Mathf.Clamp(value.y, min.y, max.y);
-		return new Vector2(x, y);
-	}
+	
 
-	/// <summary>
-	/// Clamps a Vector3
-	/// </summary>
-	/// <param name="value"></param>
-	/// <param name="min"></param>
-	/// <param name="max"></param>
-	/// <returns>a Vector3 between the min and max value</returns>
-	public static Vector3 ClampVector3(Vector3 value, Vector3 min, Vector3 max)
-	{
-		float x = Mathf.Clamp(value.x, min.x, max.x);
-		float y = Mathf.Clamp(value.y, min.y, max.y);
-		float z = Mathf.Clamp(value.z, min.z, max.z);
-		return new Vector3(x, y, z);
-	}
+	
 
-	/// <summary>
-	/// Clamps a Vector2Int
-	/// </summary>
-	/// <param name="value"></param>
-	/// <param name="min"></param>
-	/// <param name="max"></param>
-	/// <returns>a Vector2Int between the min and max value</returns>
-	public static Vector2Int ClampVector2Int(Vector2Int value, Vector2Int min, Vector2Int max)
-	{
-		int x = Mathf.Clamp(value.x, min.x, max.x);
-		int y = Mathf.Clamp(value.y, min.y, max.y);
-		return new Vector2Int(x, y);
-	}
-
-	/// <summary>
-	/// Clamps a Vector3Int
-	/// </summary>
-	/// <param name="value"></param>
-	/// <param name="min"></param>
-	/// <param name="max"></param>
-	/// <returns>a Vector3Int between the min and max value</returns>
-	public static Vector3Int ClampVector3Int(Vector3Int value, Vector3Int min, Vector3Int max)
-	{
-		int x = Mathf.Clamp(value.x, min.x, max.x);
-		int y = Mathf.Clamp(value.y, min.y, max.y);
-		int z = Mathf.Clamp(value.z, min.z, max.z);
-		return new Vector3Int(x, y, z);
-	}
 
 	#endregion
 
