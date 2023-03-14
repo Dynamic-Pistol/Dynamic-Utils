@@ -1,24 +1,27 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "New Int",menuName = "Variables/Int")]
-public class IntVariable : ScriptableObject
+namespace Dynamic.Variables
 {
-    private int _value;
-
-	public int  Value
+	[CreateAssetMenu(fileName = "New Int", menuName = "Variables/Int")]
+	public class IntVariable : ScriptableObject
 	{
-		get => _value; set
+		private int _value;
+
+		public int Value
 		{
-			_value = value;
-			OnValueChangedUnityEvent?.Invoke(value);
-			OnValueChanged?.Invoke(value);
+			get => _value; set
+			{
+				_value = value;
+				OnValueChangedUnityEvent?.Invoke(value);
+				OnValueChanged?.Invoke(value);
+			}
 		}
+
+
+		[SerializeField]
+		private UnityEvent<int> OnValueChangedUnityEvent = new UnityEvent<int>();
+
+		public event System.Action<int> OnValueChanged;
 	}
-
-	
-	[SerializeField]
-    private UnityEvent<int> OnValueChangedUnityEvent = new UnityEvent<int>();
-
-    public event System.Action<int> OnValueChanged;
 }
