@@ -1,20 +1,26 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "New Float",menuName = "Variables/Float")]
-public class FloatVariable : ScriptableObject
+namespace Dynamic.Variables
 {
-    private float _value;
+	[CreateAssetMenu(fileName = "New Float", menuName = "Variables/Float")]
+	public class FloatVariable : ScriptableObject
+	{
+		private float _value;
 
-    public float Value { get => _value; set
+		public float Value
 		{
-			_value = value;
-			OnValueChangedUnityEvent?.Invoke(value);
-			OnValueChanged?.Invoke(value);
-		} }
+			get => _value; set
+			{
+				_value = value;
+				OnValueChangedUnityEvent?.Invoke(value);
+				OnValueChanged?.Invoke(value);
+			}
+		}
 
-    [SerializeField]
-    private UnityEvent<float> OnValueChangedUnityEvent = new UnityEvent<float>();
+		[SerializeField]
+		private UnityEvent<float> OnValueChangedUnityEvent = new UnityEvent<float>();
 
-    public event System.Action<float> OnValueChanged;
+		public event System.Action<float> OnValueChanged;
+	}
 }

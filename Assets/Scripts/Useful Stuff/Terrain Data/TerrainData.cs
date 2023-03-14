@@ -7,10 +7,9 @@ public struct TerrainData : System.IDisposable
 	[Range(0, 6)]
 	public int levelOfDetail;
 	public const int heightMultiplier = 25;
-	public NativeCurve heightCurve;
 
 	public void Dispose()
 	{
-		heightCurve.Dispose();
+		throw new System.NotImplementedException();
 	}
 }
